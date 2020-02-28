@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "33523383217",
+    "firebase_url": "https://petnote-d4d29.firebaseio.com",
+    "project_id": "petnote-d4d29",
+    "storage_bucket": "petnote-d4d29.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:33523383217:android:b56535b49acb6db4381b90",
+        "android_client_info": {
+          "package_name": "com.petnoteapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "33523383217-61a501q8dhs8rkmsb5j090vv4qaff703.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBub7R0RtOOyz2ra_ouPb2KWq3Pj6K6EIs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "33523383217-61a501q8dhs8rkmsb5j090vv4qaff703.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "33523383217-u7mc7ov6qpdf442l5flirl0r06f9bt4f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.petnoteapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
