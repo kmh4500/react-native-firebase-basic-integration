@@ -67,13 +67,12 @@ registerPush = () => {
               // console.log("abcde4")
               if (this.props.rootStore.appStore.profile.settings.pushNoti === undefined ||
                   this.props.rootStore.appStore.profile.settings.pushNoti) {
-                localizedNoti = this.makeLocalizedNoti(notification)
                 if (Platform.OS === 'android') {
-                  notification.android.setChannelId('aloha-noti-ch');
-                  notification.android.setSmallIcon("@mipmap/ic_notification");
+                  notification.android.setChannelId('pet-ch');
+                  // notification.android.setSmallIcon("@mipmap/ic_notification");
                   notification.android.setAutoCancel(true);
                 }
-                firebaseApp.notifications().displayNotification(localizedNoti)
+                firebaseApp.notifications().displayNotification(notification)
                 this.alarmOn = true;
               }
             });
@@ -94,13 +93,12 @@ registerPush = () => {
                 // console.log("abcde2")
                 if (this.props.rootStore.appStore.profile.settings.pushNoti === undefined ||
                     this.props.rootStore.appStore.profile.settings.pushNoti) {
-                  localizedNoti = this.makeLocalizedNoti(notification)
                   if (Platform.OS === 'android') {
-                    notification.android.setChannelId('aloha-noti-ch');
-                    notification.android.setSmallIcon("@mipmap/ic_notification");
+                    notification.android.setChannelId('pet-ch');
+                    // notification.android.setSmallIcon("@mipmap/ic_notification");
                     notification.android.setAutoCancel(true);
                   }
-                  firebaseApp.notifications().displayNotification(localizedNoti)
+                  firebaseApp.notifications().displayNotification(notification)
                   this.alarmOn = true;
                 }
               });
@@ -119,7 +117,7 @@ registerPush = () => {
         if (notificationOpen) {
           const notification = notificationOpen.notification;
           // console.log("NOTI OPEN", notification)
-          this.moveToProperScreen(notification);
+          // this.moveToProperScreen(notification);
         }
       }
     );
@@ -133,7 +131,7 @@ registerPush = () => {
           // Get information about the notification that was opened
           const notification = notificationOpen.notification;
           // console.log("GET INITIAL NOTI", notification)
-          this.moveToProperScreen(notification);
+          // this.moveToProperScreen(notification);
         }
       });
     }
