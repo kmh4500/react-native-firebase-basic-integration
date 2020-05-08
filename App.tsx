@@ -37,7 +37,110 @@ firebase.firestore().collection('profile')
 
 declare var global: {HermesInternal: null | {}};
 
+
+registerPush = () => {
+    console.log("------ register push -------");
+    firebaseApp = firebase;
+    firebaseMsg = firebase.messaging;
+
+    if (Platform.OS === 'android') {
+      const channel = new firebaseApp.notifications.Android.Channel('pet-ch', 'Noti Channel',
+          firebaseApp.notifications.Android.Importance.Max).setDescription('Notification channel');
+
+      firebaseApp.notifications().android.createChannel(channel)
+    }
+
+    firebaseMsg().hasPermission().then(enabled => {
+      if (enabled) {
+        // user has permissions
+        var notificationDisplayedListener =
+            firebaseApp.notifications().onNotificationDisplayed((notification) => {
+              // Process your notification as required
+              // ANDROID: Remote notifications do not contain the channel ID.
+              // You will have to specify this manually if you'd like to re-display the notification.
+              // console.log("abcde3")
+              // firebaseApp.notifications().displayNotification(notification)
+            });
+        this.notificationListener =
+            firebaseApp.notifications().onNotification((notification) => {
+              // Process your notification as required
+              // console.log("abcde4")
+              if (this.props.rootStore.appStore.profile.settings.pushNoti === undefined ||
+                  this.props.rootStore.appStore.profile.settings.pushNoti) {
+                localizedNoti = this.makeLocalizedNoti(notification)
+                if (Platform.OS === 'android') {
+                  notification.android.setChannelId('aloha-noti-ch');
+                  notification.android.setSmallIcon("@mipmap/ic_notification");
+                  notification.android.setAutoCancel(true);
+                }
+                firebaseApp.notifications().displayNotification(localizedNoti)
+                this.alarmOn = true;
+              }
+            });
+      } else {
+        // user doesn't have permission
+        firebaseMsg().requestPermission().then(() => {
+          this.notificationDisplayedListener =
+              firebaseApp.notifications().onNotificationDisplayed((notification) => {
+                // Process your notification as required
+                // ANDROID: Remote notifications do not contain the channel ID.
+                // You will have to specify this manually if you'd like to re-display the notification.
+                // console.log("abcde")
+                // firebase.notifications().displayNotification(notification)
+              });
+          this.notificationListener =
+              firebaseApp.notifications().onNotification((notification) => {
+                // Process your notification as required
+                // console.log("abcde2")
+                if (this.props.rootStore.appStore.profile.settings.pushNoti === undefined ||
+                    this.props.rootStore.appStore.profile.settings.pushNoti) {
+                  localizedNoti = this.makeLocalizedNoti(notification)
+                  if (Platform.OS === 'android') {
+                    notification.android.setChannelId('aloha-noti-ch');
+                    notification.android.setSmallIcon("@mipmap/ic_notification");
+                    notification.android.setAutoCancel(true);
+                  }
+                  firebaseApp.notifications().displayNotification(localizedNoti)
+                  this.alarmOn = true;
+                }
+              });
+        }).catch(error => {
+          // User has rejected permissions
+          //console.log("abcde5")
+          console.log(error)
+        });
+      }
+    });
+
+    this.notificationOpenedListener = firebaseApp.notifications().onNotificationOpened(
+      (notificationOpen) => {
+        // Get the action triggered by the notification being opened
+        // Get information about the notification that was opened
+        if (notificationOpen) {
+          const notification = notificationOpen.notification;
+          // console.log("NOTI OPEN", notification)
+          this.moveToProperScreen(notification);
+        }
+      }
+    );
+
+    if (Platform.OS === 'android') {
+      firebaseApp.notifications().getInitialNotification()
+      .then((notificationOpen) => {
+        if (notificationOpen) {
+          // App was opened by a notification
+          // Get the action triggered by the notification being opened
+          // Get information about the notification that was opened
+          const notification = notificationOpen.notification;
+          // console.log("GET INITIAL NOTI", notification)
+          this.moveToProperScreen(notification);
+        }
+      });
+    }
+  }
+
 const App = () => {
+  registerPush();
   return (
     <>
       <StatusBar barStyle="dark-content" />
